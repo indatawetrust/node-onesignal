@@ -5,30 +5,31 @@ This is an unofficial Node.js SDK for the [OneSignal Push Notification Service](
 
 ```js
 // require the module
-const OneSignalClient = require('node-onesignal');
+const OneSignalClient = require('node-onesignal-api');
 
 // create a new clinet
-const client = new OneSignalClient([YOUR APP ID], [YOUR REST API KEY]);
+const client = new OneSignalClient({
+    appId: '****',
+    restApiKey: '****'
+});
 
 // send a notification
-client.sendNotification('test notification', {
-    included_segments: 'all'
-});
+client.createNotification({
+  contents: {
+    contents: 'Content!'
+  },
+  specific: {
+    include_player_ids: ['****']
+  },
+  attachments: {
+    data: {
+      hello: "world"
+    }
+  }
+}).then(success => {
+    // ..
+})
+
 ```
 
-## API
-
-`OneSignalClient(appId, restApiKey)`
-* `appId`_(string, required)_ - your OneSignal App ID
-
-* `restApiKey`_(string, required)_ - your OneSignal REST API Key
-
-`sendNotification(message, options)`
-* `message`_(string/object, required)_ - the content of your message. **Note:** when passing an object, please see the [OneSignal documentation](https://documentation.onesignal.com/docs/notifications-create-notification) for details on the format.
-
-* `options`_(object)_ - OneSignal options. Please see the [OneSignal documentation](https://documentation.onesignal.com/docs/notifications-create-notification).
-
-As you can see, this SDK does not implement all of the methods available through the OneSignal REST API. If there are other methods you require, please open an issue or feel free to create a PR (with tests!).
-
-## Contributing
-Just open a PR and include tests. Any help is greatly appreciated!
+More about [contents](https://documentation.onesignal.com/v3.0/reference#section-content-language),[attachments](https://documentation.onesignal.com/v3.0/reference#section-attachments) and [specific](https://documentation.onesignal.com/v3.0/reference#section-send-to-specific-devices).
